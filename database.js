@@ -3,7 +3,7 @@ const {open} = require('sqlite')
 
 
 
-const criarbanco = async () => {
+const criarBanco = async () => {
 
      const db = await open ({
         filename:'./database.db',
@@ -65,20 +65,30 @@ console.log(`banco pronto com ${checagem.total} de incidentes `);
     `);
 
 
-    console.log("todas as reclamações do dia 16/03/2026 tiveram uma atualização");
+   console.log("Todos as reclamações do dia 16/03/2026 tiveram uma atualização");
+
+  //UPDATE
+
+  await db.run(`
+  UPDATE incidentes
+  SET status_resolucao = "Resolvido"
+  WHERE tipo_problema = "Falta de energia"
+  `);
+  console.log("Problema do hospital resolvido");
+
+  //DELETE
+  await db.run(`DELETE FROM incidentes WHERE id = 2 `);
+
+  console.log("Registro do ID 2 removido");
 
 
+//Relatório/SELECT Final
+//console.log("Relatório Atualizado(FINAL)");
 
+const resultadoFinal = await db.all(`SELECT * FROM incidentes`);
+console.table(resultadoFinal);
 
- 
-
-  // ============================
-  // Select  - R do CRUD - READ
-  // ============================
-
-  const todosOsIncidentes = await db.all("SELECT * FROM incidentes");
-  console.table(todosOsIncidentes);
 };
 
 
-criarbanco()
+criarBanco();
