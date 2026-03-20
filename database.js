@@ -88,7 +88,11 @@ console.log(`banco pronto com ${checagem.total} de incidentes `);
 const resultadoFinal = await db.all(`SELECT * FROM incidentes`);
 console.table(resultadoFinal);
 
+
+return db; // retorna o banco ( entregando a chave do vancon para alguem)
+
 };
 
 
-criarBanco();
+//criarBanco();
+module.exports = {criarBanco}
